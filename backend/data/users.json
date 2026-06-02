@@ -1,0 +1,7 @@
+[
+  { "email": "admin@mawkishcreates.com",  "password": "admin123",  "name": "Ashan Wijeratne",   "role": "Creative Director",  "avatar": "AW", "img": "https://i.pravatar.cc/150?img=68" },
+  { "email": "sarah@mawkishcreates.com",  "password": "sarah123",  "name": "Sarah Perera",      "role": "Senior Designer",    "avatar": "SP", "img": "https://i.pravatar.cc/150?img=47" },
+  { "email": "kamal@mawkishcreates.com",  "password": "kamal123",  "name": "Kamal Fernando",    "role": "Social Media Lead",  "avatar": "KF", "img": "https://i.pravatar.cc/150?img=12" },
+  { "email": "nisha@mawkishcreates.com",  "password": "nisha123",  "name": "Nisha Jayawardena", "role": "Content Strategist", "avatar": "NJ", "img": "https://i.pravatar.cc/150?img=45" },
+  { "email": "demo@mawkishcreates.com",   "password": "demo",      "name": "Demo User",         "role": "Staff",              "avatar": "DU", "img": "" }
+]

@@ -1,0 +1,10 @@
+[
+  { "id": "p1", "name": "Website Redesign",      "client": "Amara Hotels",   "stage": "proposal",   "value": 420000, "startDate": "2026-05-20", "pm": "AW" },
+  { "id": "p2", "name": "Brand Identity",         "client": "Neon Kitchens",  "stage": "active",     "value": 185000, "startDate": "2026-06-05", "pm": "NJ" },
+  { "id": "p3", "name": "Social Media Retainer",  "client": "CeylonTech",     "stage": "active",     "value": 95000,  "startDate": "2026-04-01", "pm": "KF" },
+  { "id": "p4", "name": "Campaign Shoot",         "client": "SurgeWear",      "stage": "production", "value": 130000, "startDate": "2026-06-10", "pm": "SP" },
+  { "id": "p5", "name": "Brand Refresh",          "client": "VitaBlend",      "stage": "review",     "value": 210000, "startDate": "2026-05-15", "pm": "SP" },
+  { "id": "p6", "name": "Annual Report Design",   "client": "Harbour Finance", "stage": "completed",  "value": 88000,  "startDate": "2026-04-10", "pm": "AW" },
+  { "id": "p7", "name": "SMM Package",            "client": "Mocha Roasters", "stage": "completed",  "value": 72000,  "startDate": "2026-03-01", "pm": "KF" },
+  { "id": "p8", "name": "E-comm Content",         "client": "Ceylon Coco",    "stage": "proposal",   "value": 56000,  "startDate": "2026-06-02", "pm": "NJ" }
+]

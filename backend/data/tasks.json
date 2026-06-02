@@ -1,0 +1,12 @@
+[
+  { "id": "t1",  "title": "Design new client onboarding deck",     "status": "todo",        "priority": "high",   "dueDate": "2026-06-08", "assignees": ["SP","AW"], "tags": ["Design"],      "client": "Internal" },
+  { "id": "t2",  "title": "Write Q3 social media strategy report", "status": "todo",        "priority": "high",   "dueDate": "2026-06-10", "assignees": ["NJ"],      "tags": ["Strategy"],    "client": "Internal" },
+  { "id": "t3",  "title": "Revise brand guidelines for VitaBlend", "status": "in-progress", "priority": "medium", "dueDate": "2026-06-06", "assignees": ["SP"],      "tags": ["Branding"],    "client": "VitaBlend" },
+  { "id": "t4",  "title": "Instagram content calendar — June",     "status": "in-progress", "priority": "medium", "dueDate": "2026-06-07", "assignees": ["KF","NJ"], "tags": ["Content"],     "client": "CeylonTech" },
+  { "id": "t5",  "title": "Create proposal for Amara Hotels",      "status": "in-progress", "priority": "high",   "dueDate": "2026-06-05", "assignees": ["AW"],      "tags": ["Proposal"],    "client": "Amara Hotels" },
+  { "id": "t6",  "title": "Shoot product photos — Mocha Roasters", "status": "done",        "priority": "low",    "dueDate": "2026-06-01", "assignees": ["SP"],      "tags": ["Photography"], "client": "Mocha Roasters" },
+  { "id": "t7",  "title": "Monthly analytics report — May 2026",   "status": "done",        "priority": "medium", "dueDate": "2026-06-01", "assignees": ["KF"],      "tags": ["Reports"],     "client": "Internal" },
+  { "id": "t8",  "title": "Finalise motion graphics for reel",     "status": "todo",        "priority": "low",    "dueDate": "2026-06-15", "assignees": ["SP","KF"], "tags": ["Video"],       "client": "SurgeWear" },
+  { "id": "t9",  "title": "Update website portfolio section",      "status": "todo",        "priority": "low",    "dueDate": "2026-06-20", "assignees": ["AW"],      "tags": ["Website"],     "client": "Internal" },
+  { "id": "t10", "title": "Client kick-off prep — Neon Kitchens",  "status": "in-progress", "priority": "high",   "dueDate": "2026-06-04", "assignees": ["NJ","AW"], "tags": ["Client"],      "client": "Neon Kitchens" }
+]

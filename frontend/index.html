@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mawkish Creates — Staff Portal</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <!-- Left Panel -->
+    <div class="login-left">
+      <div class="login-brand">
+        <div class="login-logo-placeholder">
+          <div class="login-logo-mark"><span>M</span></div>
+          <div class="login-logo-text">Mawkish <em>Creates</em></div>
+        </div>
+        <h1 class="login-headline">Your team,<br><span>one place.</span></h1>
+        <p class="login-subline">The internal hub for tasks, pipelines, resources, and everything in between.</p>
+      </div>
+      <div class="login-features">
+        <div class="login-feature"><div class="feature-dot"></div>Task & project tracking</div>
+        <div class="login-feature"><div class="feature-dot"></div>Team announcements & notices</div>
+        <div class="login-feature"><div class="feature-dot"></div>Client pipeline management</div>
+        <div class="login-feature"><div class="feature-dot"></div>Shared resources & templates</div>
+        <div class="login-feature"><div class="feature-dot"></div>Calendar & important dates</div>
+      </div>
+    </div>
+    <!-- Right Panel -->
+    <div class="login-right">
+      <h2 class="login-form-title">Welcome back</h2>
+      <p class="login-form-sub">Sign in to your portal account</p>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="loginEmail" class="form-control" placeholder="you@mawkish.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+      <button class="login-btn" id="loginBtn">Sign In</button>
+      <div class="login-error" id="loginError"></div>
+      <div class="demo-hint">
+        <strong>Default credentials</strong>
+        admin@mawkish.com &nbsp;/&nbsp; mawkish2026
+      </div>
+      <p class="login-footer">Internal use only. &nbsp;·&nbsp; <span>Mawkish Creates</span> © 2026</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+    document.getElementById('loginPassword').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') window.location.href = '/pages/dashboard.html';
+    });
+  </script>
+</body>
+</html>

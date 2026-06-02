@@ -1,0 +1,11 @@
+[
+  { "id": "r1", "name": "Brand Guidelines v1.0",    "desc": "Colours, typography, tone of voice and email standards",       "icon": "🎨", "category": "brand",     "link": "#", "updated": "2026-06-01" },
+  { "id": "r2", "name": "Email Signature Template",  "desc": "Standard email signature — copy and configure in your client", "icon": "✉️", "category": "templates", "link": "#", "updated": "2026-05-28" },
+  { "id": "r3", "name": "Proposal Template",         "desc": "Client-ready proposal deck in brand colours",                  "icon": "📋", "category": "templates", "link": "#", "updated": "2026-05-20" },
+  { "id": "r4", "name": "Social Media SOP",          "desc": "Scheduling, approval process and captioning guidelines",       "icon": "📱", "category": "sop",       "link": "#", "updated": "2026-05-15" },
+  { "id": "r5", "name": "Content Intake Form",       "desc": "Use for all new client content briefs",                        "icon": "📝", "category": "templates", "link": "#", "updated": "2026-05-10" },
+  { "id": "r6", "name": "Photography Brief Guide",   "desc": "Standard brief format for shoots and art direction notes",     "icon": "📷", "category": "sop",       "link": "#", "updated": "2026-04-30" },
+  { "id": "r7", "name": "Meeting Follow-up Template","desc": "Post-meeting summary email template",                           "icon": "📌", "category": "templates", "link": "#", "updated": "2026-04-20" },
+  { "id": "r8", "name": "Client Onboarding Deck",    "desc": "Welcome deck to share with new clients at kick-off",           "icon": "🤝", "category": "brand",     "link": "#", "updated": "2026-04-15" },
+  { "id": "r9", "name": "Monthly Report Template",   "desc": "Task summary and time log template for monthly billing",       "icon": "📊", "category": "templates", "link": "#", "updated": "2026-03-01" }
+]

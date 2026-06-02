@@ -1,0 +1,12 @@
+[
+  { "id": "e1",  "title": "Neon Kitchens Kick-off",      "date": "2026-06-05", "time": "10:00 AM", "color": "#7b2ff7", "type": "client",   "location": "One Galle Face" },
+  { "id": "e2",  "title": "VitaBlend Brand Review",       "date": "2026-06-06", "time": "2:00 PM",  "color": "#c9a84c", "type": "client",   "location": "Charles Place" },
+  { "id": "e3",  "title": "Monthly Reporting Deadline",   "date": "2026-06-07", "time": "6:00 PM",  "color": "#e879b0", "type": "deadline", "location": "" },
+  { "id": "e4",  "title": "Team Strategy Meeting",        "date": "2026-06-09", "time": "9:30 AM",  "color": "#5eead4", "type": "internal", "location": "Charles Place" },
+  { "id": "e5",  "title": "Amara Hotels Proposal Pres.",  "date": "2026-06-11", "time": "11:00 AM", "color": "#7b2ff7", "type": "client",   "location": "One Galle Face" },
+  { "id": "e6",  "title": "Content Shoot — SurgeWear",    "date": "2026-06-14", "time": "8:00 AM",  "color": "#c9a84c", "type": "shoot",    "location": "TBC" },
+  { "id": "e7",  "title": "Mid-Year Review — All Team",   "date": "2026-06-20", "time": "10:00 AM", "color": "#420f8a", "type": "internal", "location": "One Galle Face" },
+  { "id": "e8",  "title": "CeylonTech Content Approval",  "date": "2026-06-23", "time": "3:00 PM",  "color": "#7b2ff7", "type": "client",   "location": "Virtual" },
+  { "id": "e9",  "title": "Mocha Roasters — Deliverables","date": "2026-06-27", "time": "5:00 PM",  "color": "#e879b0", "type": "deadline", "location": "" },
+  { "id": "e10", "title": "Q3 Planning Session",          "date": "2026-06-30", "time": "9:00 AM",  "color": "#420f8a", "type": "internal", "location": "Charles Place" }
+]

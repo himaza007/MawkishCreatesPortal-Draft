@@ -194,22 +194,56 @@
       `).join('');
     }
 
-    // Tasks
+    renderDashTasks(activeTasks);
+  }
+
+  function renderDashTasks(activeTasks) {
     const tEl = document.getElementById('dashTasks');
     const pendingTasks = activeTasks.slice(0,4);
-    if (!pendingTasks.length) { tEl.innerHTML = `<div class="empty-state" style="padding:24px"><p>All caught up! 🎉</p></div>`; }
-    else {
-      tEl.innerHTML = pendingTasks.map(t => `
-        <div class="task-item">
-          <div class="task-check ${t.status==='completed'?'done':''}"></div>
-          <div class="task-body">
-            <div class="task-title ${t.status==='completed'?'done':''}">${t.title}</div>
-            <div class="task-meta">Due ${formatDate(t.dueDate)} · ${t.assignee}</div>
+    if (!pendingTasks.length) { tEl.innerHTML = `<div class="empty-state" style="padding:24px"><p>All caught up! 🎉</p></div>`; return; }
+    tEl.innerHTML = pendingTasks.map(t => {
+      const statusNext = { 'pending': 'in-progress', 'in-progress': 'completed', 'completed': 'pending' };
+      const statusLabel = { 'pending': 'Pending', 'in-progress': 'In Progress', 'completed': 'Done' };
+      const statusColor = { 'pending': '#f59e0b', 'in-progress': '#7b2ff7', 'completed': '#10b981' };
+      const next = statusNext[t.status];
+      const color = statusColor[t.status];
+      return `
+        <div class="task-item" style="gap:12px">
+          <div class="task-check ${t.status==='completed'?'done':''}"
+            onclick="cycleTaskStatus('${t._id}','${t.status}')"
+            title="Click to mark as ${statusLabel[next]}"
+            style="cursor:pointer;flex-shrink:0;border-color:${color};${t.status==='completed'?'background:'+color+';border-color:'+color:''}">
           </div>
-          <span class="status-badge ${t.priority==='high'?'priority-high':t.priority==='medium'?'priority-medium':'priority-low'}">${t.priority}</span>
-        </div>
-      `).join('');
-    }
+          <div class="task-body" style="flex:1">
+            <div class="task-title ${t.status==='completed'?'done':''}">${t.title}</div>
+            <div class="task-meta">Due ${formatDate(t.dueDate)} · ${t.assignee||'—'}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="status-badge ${t.priority==='high'?'priority-high':t.priority==='medium'?'priority-medium':'priority-low'}">${t.priority}</span>
+            <span style="font-size:0.68rem;color:${color};font-weight:600">${statusLabel[t.status]}</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function cycleTaskStatus(id, currentStatus) {
+    const next = { 'pending': 'in-progress', 'in-progress': 'completed', 'completed': 'pending' };
+    const newStatus = next[currentStatus];
+    await fetch(`/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ status: newStatus })
+    });
+    const res = await fetch('/api/tasks', { credentials: 'include' });
+    const tasks = await res.json();
+    const activeTasks = tasks.filter(t => t.status !== 'completed');
+    const completedTasks = tasks.filter(t => t.status === 'completed');
+    document.getElementById('statTasks').textContent = activeTasks.length;
+    document.getElementById('taskProgress').style.width = tasks.length ? `${Math.round(completedTasks.length/tasks.length*100)}%` : '0%';
+    renderDashTasks(activeTasks);
+    const labels = { 'pending': 'Pending', 'in-progress': 'In Progress', 'completed': 'Done' };
+    showToast(`Moved to ${labels[newStatus]}`);
   }
 
   loadDashboard();

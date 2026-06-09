@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Database files (live data — not for version control)
+backend/db/data/*.db
+
+# Environment & secrets
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

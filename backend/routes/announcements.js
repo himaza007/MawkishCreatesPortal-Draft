@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
 
-const auth = (req, res, next) => { next(); };
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    req.session.user = { name: 'Admin User', email: 'admin@mawkish.com', role: 'admin' };
+  }
+  next();
+};
 
 router.get('/', auth, (req, res) => {
   db.announcements.find({}).sort({ pinned: -1, createdAt: -1 }).exec((err, docs) => res.json(docs));

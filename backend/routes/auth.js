@@ -19,8 +19,8 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/me', (req, res) => {
-  const user = req.session.user || { id: '1', name: 'Admin User', email: 'admin@mawkish.com', role: 'admin', department: 'Management', avatar: 'AU' };
-  res.json({ user });
+  if (!req.session.user) return res.status(401).json({ error: 'Not authenticated' });
+  res.json({ user: req.session.user });
 });
 
 router.get('/users', (req, res) => {

@@ -13,7 +13,7 @@
     <header class="topbar">
       <div class="page-title">Calendar</div>
       <div class="topbar-right">
-        <button class="btn btn-primary btn-sm" onclick="openModal('eventModal')">
+        <button id="addEventBtn" class="btn btn-primary btn-sm" onclick="openModal('eventModal')" style="display:none">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Add Event
         </button>
@@ -111,6 +111,7 @@
 
   async function loadCalendar() {
     await initShell('calendar');
+    if (canEdit()) document.getElementById('addEventBtn').style.display = '';
     const res = await fetch('/api/events', { credentials: 'include' });
     allEvents = await res.json();
     renderCalendar();
@@ -176,11 +177,11 @@
             <span class="status-badge ${e.type==='client'?'status-pending':'status-in-progress'}">${e.type}</span>
           </div>
         </div>
-        <div style="display:flex;gap:4px">
+        ${canEdit() ? `<div style="display:flex;gap:4px">
           <button class="btn btn-danger btn-sm btn-icon" onclick="deleteEvent('${e._id}')" title="Delete">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
           </button>
-        </div>
+        </div>` : ''}
       </div>
     `).join('');
   }

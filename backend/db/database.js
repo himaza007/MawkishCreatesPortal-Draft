@@ -23,6 +23,27 @@ db.users.findOne({ email: 'admin@mawkish.com' }, (err, doc) => {
   }
 });
 
+const teamMembers = [
+  { name: 'Booso',  email: 'booso@mawkishcreates.com',  password: 'booso2026',  role: 'admin', department: 'Management',           avatar: 'BO' },
+  { name: 'Harish', email: 'harish@mawkishcreates.com', password: 'harish2026', role: 'staff', department: 'Digital Solution Team', avatar: 'HA' },
+  { name: 'Aathif', email: 'aathif@mawkishcreates.com', password: 'aathif2026', role: 'staff', department: 'Social Media Team',     avatar: 'AA' },
+  { name: 'Himaza', email: 'himaza@mawkishcreates.com', password: 'himaza2026', role: 'staff', department: 'Digital Solution Team', avatar: 'HI' },
+  { name: 'Hakam',  email: 'hakam@mawkishcreates.com',  password: 'hakam2026',  role: 'staff', department: 'Social Media Team',     avatar: 'HK' },
+  { name: 'Krish',  email: 'krish@mawkishcreates.com',  password: 'krish2026',  role: 'staff', department: 'Social Media Team',     avatar: 'KR' },
+  { name: 'Bianca', email: 'bianca@mawkishcreates.com', password: 'bianca2026', role: 'staff', department: 'Social Media Team',     avatar: 'BI' },
+  { name: 'Faraz',  email: 'faraz@mawkishcreates.com',  password: 'faraz2026',  role: 'staff', department: 'Event Management Team', avatar: 'FA' },
+];
+
+teamMembers.forEach(member => {
+  db.users.findOne({ email: member.email }, (err, doc) => {
+    if (!doc) {
+      const hash = bcrypt.hashSync(member.password, 10);
+      db.users.insert({ name: member.name, email: member.email, password: hash, role: member.role, department: member.department, avatar: member.avatar, createdAt: new Date() });
+      console.log(`Created user: ${member.email} / ${member.password}`);
+    }
+  });
+});
+
 db.announcements.count({}, (err, count) => {
   if (count === 0) {
     db.announcements.insert([

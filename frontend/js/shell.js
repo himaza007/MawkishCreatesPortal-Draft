@@ -101,3 +101,8 @@ function timeAgo(dateStr) {
 }
 
 function getUser() { return currentUser; }
+
+const _EDITORS = new Set(['Booso', 'Himaza', 'Faraz', 'Bianca']);
+function canEdit() {
+  return currentUser && (_EDITORS.has(currentUser.name) || currentUser.role === 'admin');
+}

@@ -2,9 +2,17 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
 
+const EDITORS = new Set(['Booso', 'Himaza', 'Faraz', 'Bianca']);
+
 const auth = (req, res, next) => {
-  if (!req.session.user) {
-    req.session.user = { name: 'Admin User', email: 'admin@mawkish.com', role: 'admin' };
+  if (!req.session.user) return res.status(401).json({ error: 'Not authenticated' });
+  next();
+};
+
+const canWrite = (req, res, next) => {
+  if (!req.session.user) return res.status(401).json({ error: 'Not authenticated' });
+  if (!EDITORS.has(req.session.user.name) && req.session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'View only access' });
   }
   next();
 };
@@ -13,15 +21,15 @@ router.get('/', auth, (req, res) => {
   db.events.find({}).sort({ date: 1 }).exec((err, docs) => res.json(docs));
 });
 
-router.post('/', auth, (req, res) => {
+router.post('/', canWrite, (req, res) => {
   db.events.insert({ ...req.body, createdBy: req.session.user.name }, (err, doc) => res.json(doc));
 });
 
-router.put('/:id', auth, (req, res) => {
+router.put('/:id', canWrite, (req, res) => {
   db.events.update({ _id: req.params.id }, { $set: req.body }, {}, () => res.json({ ok: true }));
 });
 
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', canWrite, (req, res) => {
   db.events.remove({ _id: req.params.id }, {}, () => res.json({ ok: true }));
 });
 

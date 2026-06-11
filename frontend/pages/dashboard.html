@@ -199,8 +199,18 @@
 
   function renderDashTasks(activeTasks) {
     const tEl = document.getElementById('dashTasks');
-    const pendingTasks = activeTasks.slice(0,4);
-    if (!pendingTasks.length) { tEl.innerHTML = `<div class="empty-state" style="padding:24px"><p>All caught up! 🎉</p></div>`; return; }
+    const user = getUser();
+
+    let myTasks = activeTasks;
+    if (user && user.role !== 'admin') {
+      myTasks = activeTasks.filter(t =>
+        t.assignee === user.name ||
+        (t.assignedTeam && t.assignedTeam === user.department)
+      );
+    }
+
+    const pendingTasks = myTasks.slice(0, 4);
+    if (!pendingTasks.length) { tEl.innerHTML = `<div class="empty-state" style="padding:24px"><p>No tasks assigned to you yet.</p></div>`; return; }
     tEl.innerHTML = pendingTasks.map(t => {
       const statusNext = { 'pending': 'in-progress', 'in-progress': 'completed', 'completed': 'pending' };
       const statusLabel = { 'pending': 'Pending', 'in-progress': 'In Progress', 'completed': 'Done' };
@@ -216,7 +226,7 @@
           </div>
           <div class="task-body" style="flex:1">
             <div class="task-title ${t.status==='completed'?'done':''}">${t.title}</div>
-            <div class="task-meta">Due ${formatDate(t.dueDate)} · ${t.assignee||'—'}</div>
+            <div class="task-meta">Due ${formatDate(t.dueDate)} · ${t.assignedTeam || t.assignee || '—'}</div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
             <span class="status-badge ${t.priority==='high'?'priority-high':t.priority==='medium'?'priority-medium':'priority-low'}">${t.priority}</span>

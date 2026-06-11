@@ -13,7 +13,7 @@
     <header class="topbar">
       <div class="page-title">Tasks</div>
       <div class="topbar-right">
-        <button class="btn btn-primary btn-sm" onclick="openModal('taskModal')">
+        <button id="newTaskBtn" class="btn btn-primary btn-sm" onclick="openModal('taskModal')" style="display:none">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Task
         </button>
@@ -103,13 +103,32 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="form-group">
-          <label class="form-label">Assignee</label>
-          <input type="text" id="taskAssignee" class="form-control" placeholder="Who's responsible?">
+          <label class="form-label">Assign to Person</label>
+          <select id="taskAssigneePerson" class="form-control">
+            <option value="">None</option>
+            <option value="Booso">Booso</option>
+            <option value="Harish">Harish</option>
+            <option value="Aathif">Aathif</option>
+            <option value="Himaza">Himaza</option>
+            <option value="Hakam">Hakam</option>
+            <option value="Krish">Krish</option>
+            <option value="Bianca">Bianca</option>
+            <option value="Faraz">Faraz</option>
+          </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Due Date</label>
-          <input type="date" id="taskDue" class="form-control">
+          <label class="form-label">Assign to Team</label>
+          <select id="taskAssigneeTeam" class="form-control">
+            <option value="">None</option>
+            <option value="Social Media Team">Social Media Team</option>
+            <option value="Digital Solution Team">Digital Solution Team</option>
+            <option value="Event Management Team">Event Management Team</option>
+          </select>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Date</label>
+        <input type="date" id="taskDue" class="form-control">
       </div>
     </div>
     <div class="modal-footer">
@@ -126,6 +145,7 @@
 
   async function loadTasks() {
     await initShell('tasks');
+    if (canEdit()) document.getElementById('newTaskBtn').style.display = '';
     const res = await fetch('/api/tasks', { credentials: 'include' });
     allTasks = await res.json();
     renderTasks();
@@ -166,17 +186,17 @@
           <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:6px">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
               <span class="status-badge ${t.priority==='high'?'priority-high':t.priority==='medium'?'priority-medium':'priority-low'}">${t.priority}</span>
-              ${t.assignee ? `<span style="font-size:0.72rem;color:var(--text-secondary)">${t.assignee}</span>` : ''}
+              ${t.assignedTeam ? `<span style="font-size:0.72rem;color:var(--purple-700);background:var(--purple-50);padding:1px 7px;border-radius:10px;border:1px solid var(--purple-200)">${t.assignedTeam}</span>` : (t.assignee ? `<span style="font-size:0.72rem;color:var(--text-secondary)">${t.assignee}</span>` : '')}
               ${t.dueDate ? `<span style="font-size:0.72rem;color:var(--text-secondary)">Due ${formatDate(t.dueDate)}</span>` : ''}
             </div>
-            <div class="task-actions" style="opacity:1;display:flex;gap:4px">
+            ${canEdit() ? `<div class="task-actions" style="opacity:1;display:flex;gap:4px">
               <button class="btn btn-ghost btn-sm btn-icon" onclick="editTask('${t._id}')" title="Edit">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
               <button class="btn btn-danger btn-sm btn-icon" onclick="deleteTask('${t._id}')" title="Delete">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
               </button>
-            </div>
+            </div>` : ''}
           </div>
         </div>
       `).join('');
@@ -192,7 +212,8 @@
     document.getElementById('taskDesc').value = t.description || '';
     document.getElementById('taskStatus').value = t.status;
     document.getElementById('taskPriority').value = t.priority;
-    document.getElementById('taskAssignee').value = t.assignee || '';
+    document.getElementById('taskAssigneePerson').value = t.assignee || '';
+    document.getElementById('taskAssigneeTeam').value = t.assignedTeam || '';
     document.getElementById('taskDue').value = t.dueDate || '';
     openModal('taskModal');
   }
@@ -200,7 +221,9 @@
   function resetTaskForm() {
     document.getElementById('taskId').value = '';
     document.getElementById('taskModalTitle').textContent = 'New Task';
-    ['taskTitle','taskDesc','taskAssignee','taskDue'].forEach(id => document.getElementById(id).value = '');
+    ['taskTitle','taskDesc','taskDue'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('taskAssigneePerson').value = '';
+    document.getElementById('taskAssigneeTeam').value = '';
     document.getElementById('taskStatus').value = 'pending';
     document.getElementById('taskPriority').value = 'medium';
   }
@@ -215,7 +238,8 @@
       title, description: document.getElementById('taskDesc').value,
       status: document.getElementById('taskStatus').value,
       priority: document.getElementById('taskPriority').value,
-      assignee: document.getElementById('taskAssignee').value,
+      assignee: document.getElementById('taskAssigneePerson').value,
+      assignedTeam: document.getElementById('taskAssigneeTeam').value,
       dueDate: document.getElementById('taskDue').value,
     };
     const url = id ? `/api/tasks/${id}` : '/api/tasks';

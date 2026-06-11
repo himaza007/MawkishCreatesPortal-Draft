@@ -1,15 +1,21 @@
 {
   "name": "mawkish-portal",
   "version": "1.0.0",
+  "description": "Mawkish Creates Internal Staff Portal",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "setup": "npm install && cd frontend && npm install && npm run build"
   },
   "dependencies": {
     "@seald-io/nedb": "^4.1.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "express-session": "^1.17.3"
+    "express-session": "^1.17.3",
+    "nedb": "^1.8.0",
+    "uuid": "^9.0.0"
   }
 }

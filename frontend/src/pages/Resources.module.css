@@ -1,0 +1,25 @@
+.filters { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.search { padding: 7px 13px; border: 1px solid var(--grey-200); border-radius: 20px; font-size: 0.83rem; font-family: var(--font-body); outline: none; width: 220px; }
+.search:focus { border-color: var(--purple-400); }
+.filterBtn { padding: 6px 14px; border-radius: 20px; font-size: 0.77rem; font-weight: 500; cursor: pointer; border: 1px solid var(--grey-200); background: var(--white); color: var(--grey-600); transition: all 0.15s; font-family: var(--font-body); }
+.filterBtn.active, .filterBtn:hover { background: var(--purple-700); color: var(--white); border-color: var(--purple-700); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.empty { grid-column: 1/-1; text-align: center; color: var(--grey-400); font-size: 0.85rem; padding: 48px; }
+
+.card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--grey-200); padding: 18px 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 10px; transition: box-shadow 0.18s, transform 0.15s; }
+.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.cardTop { display: flex; align-items: flex-start; justify-content: space-between; }
+.icon { width: 42px; height: 42px; background: var(--purple-100); border: 1px solid var(--purple-200); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--purple-600); }
+
+.title { font-weight: 600; font-size: 0.9rem; color: var(--grey-800); }
+.desc { font-size: 0.78rem; color: var(--grey-600); line-height: 1.55; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.typeTag { font-size: 0.68rem; font-weight: 500; background: var(--grey-100); color: var(--grey-600); border: 1px solid var(--grey-200); padding: 2px 8px; border-radius: 12px; }
+
+.openBtn { display: block; width: 100%; padding: 8px; background: var(--purple-50); color: var(--purple-700); border: 1px solid var(--purple-200); border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 600; font-family: var(--font-body); text-align: center; cursor: pointer; transition: background 0.15s; }
+.openBtn:hover:not(:disabled) { background: var(--purple-100); }
+
+.delBtn { background: none; border: none; cursor: pointer; padding: 5px; border-radius: 5px; color: var(--grey-400); display: flex; transition: all 0.15s; }
+.delBtn:hover { background: #fee2e2; color: #dc2626; }

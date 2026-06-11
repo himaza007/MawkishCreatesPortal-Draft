@@ -1,0 +1,42 @@
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+.column { display: flex; flex-direction: column; gap: 10px; }
+
+.colHeader { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+.colDot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.colLabel { font-size: 0.77rem; font-weight: 600; color: var(--grey-600); text-transform: uppercase; letter-spacing: 0.06em; }
+.colCount { font-size: 0.7rem; background: var(--grey-200); border-radius: 10px; padding: 1px 8px; color: var(--grey-600); }
+
+.empty { padding: 18px; text-align: center; font-size: 0.78rem; color: var(--grey-400); background: var(--grey-100); border-radius: var(--radius-md); }
+
+.taskCard {
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.18s, transform 0.15s;
+}
+.taskCard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.taskTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.taskTitle { font-size: 0.87rem; font-weight: 500; color: var(--grey-800); line-height: 1.4; }
+.taskDesc { font-size: 0.78rem; color: var(--grey-600); line-height: 1.5; margin-bottom: 10px; }
+.taskMeta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.meta { font-size: 0.72rem; color: var(--grey-400); }
+
+.taskActions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s; }
+.taskCard:hover .taskActions { opacity: 1; }
+
+.iconBtn {
+  background: none; border: none; cursor: pointer;
+  padding: 5px; border-radius: 5px;
+  color: var(--grey-400); transition: all 0.15s;
+  display: flex; align-items: center;
+}
+.iconBtn:hover { background: var(--grey-100); color: var(--grey-700); }
+.iconBtn.danger:hover { background: #fee2e2; color: #dc2626; }
+
+.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+@media (max-width: 900px) { .board { grid-template-columns: 1fr; } }

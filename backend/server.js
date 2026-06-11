@@ -1,42 +1,56 @@
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const cors = require('cors');
-const path = require('path');
 
-const authRoutes = require('./routes/auth');
-const tasksRoutes = require('./routes/tasks');
-const announcementsRoutes = require('./routes/announcements');
-const eventsRoutes = require('./routes/events');
-const pipelinesRoutes = require('./routes/pipelines');
-const resourcesRoutes = require('./routes/resources');
-   
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: true, credentials: true }));
+// Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session
 app.use(session({
-  secret: 'mawkish-creates-secret-2026',
+  secret: 'mawkish-secret-2026',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true }
 }));
 
+// Serve static frontend files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', tasksRoutes);
-app.use('/api/announcements', announcementsRoutes);
-app.use('/api/events', eventsRoutes);
-app.use('/api/pipelines', pipelinesRoutes);
-app.use('/api/resources', resourcesRoutes);
+// Import routes
+const authRoutes = require('./routes/auth');
+const taskRoutes = require('./routes/tasks');
+const announcementRoutes = require('./routes/announcements');
+const eventRoutes = require('./routes/events');
+const pipelineRoutes = require('./routes/pipelines');
+const resourceRoutes = require('./routes/resources');
 
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/pipelines', pipelineRoutes);
+app.use('/api/resources', resourceRoutes);
+
+// Serve index.html for all unmatched routes (SPA fallback)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Mawkish Creates Portal running at http://localhost:${PORT}`);
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
+
+app.listen(PORT, () => {
+  console.log(`Mawkish Portal running on http://localhost:${PORT}`);
+});
+
+module.exports = app; 

@@ -1,0 +1,30 @@
+.calHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.monthLabel { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: var(--purple-800); }
+.navBtn { background: none; border: 1px solid var(--grey-200); border-radius: 6px; cursor: pointer; padding: 5px; display: flex; color: var(--grey-600); transition: all 0.15s; }
+.navBtn:hover { background: var(--grey-100); }
+
+.calGrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.dayHead { text-align: center; font-size: 0.65rem; font-weight: 600; color: var(--grey-400); padding: 5px 0; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.cell { min-height: 68px; border-radius: 6px; background: var(--grey-100); padding: 5px; cursor: pointer; transition: background 0.12s; border: 1px solid transparent; }
+.cell:hover { background: var(--purple-50); border-color: var(--purple-200); }
+.cell.other .dayNum { color: var(--grey-400); }
+.cell.today { background: var(--purple-100); border-color: var(--purple-300); }
+
+.dayNum { font-size: 0.75rem; font-weight: 600; color: var(--grey-800); margin-bottom: 3px; }
+.todayNum { width: 20px; height: 20px; background: var(--purple-700); color: var(--white) !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; }
+
+.eventChip { font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.internal { background: var(--purple-100); color: var(--purple-700); }
+.client { background: #fef3c7; color: #92400e; }
+.more { font-size: 0.58rem; color: var(--grey-400); }
+
+.eventRow { display: flex; align-items: flex-start; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--grey-100); }
+.eventRow:last-child { border-bottom: none; }
+.dateBadge { width: 38px; height: 38px; background: var(--purple-100); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--purple-200); }
+.dateDay { font-size: 0.9rem; font-weight: 700; color: var(--purple-700); font-family: var(--font-display); line-height: 1; }
+.dateMon { font-size: 0.56rem; font-weight: 600; color: var(--purple-500); text-transform: uppercase; }
+.eTitle { font-size: 0.85rem; font-weight: 600; color: var(--grey-800); }
+.eMeta { font-size: 0.72rem; color: var(--grey-600); margin-top: 2px; margin-bottom: 4px; }
+.delBtn { background: none; border: none; cursor: pointer; padding: 5px; border-radius: 5px; color: var(--grey-400); display: flex; transition: all 0.15s; }
+.delBtn:hover { background: #fee2e2; color: #dc2626; }

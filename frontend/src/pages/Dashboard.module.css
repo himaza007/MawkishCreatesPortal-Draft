@@ -1,0 +1,45 @@
+.date { font-size: 0.8rem; color: var(--grey-600); }
+.pill { background: var(--purple-100); color: var(--purple-700); font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--purple-200); }
+
+.statIcon { width: 38px; height: 38px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.statValue { font-size: 1.8rem; font-weight: 700; font-family: var(--font-display); color: var(--purple-800); line-height: 1; margin-bottom: 3px; }
+.statLabel { font-size: 0.77rem; color: var(--grey-600); }
+.progressWrap { height: 5px; background: var(--grey-200); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+.progressBar { height: 100%; background: linear-gradient(90deg, var(--purple-600), var(--purple-400)); border-radius: 3px; transition: width 0.5s ease; }
+
+.cardHead { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.cardTitle { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: var(--purple-800); }
+.cardSub { font-size: 0.75rem; color: var(--grey-600); margin-top: 2px; }
+.viewAll { font-size: 0.77rem; font-weight: 600; color: var(--purple-600); background: var(--purple-50); border: 1px solid var(--purple-200); padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+.viewAll:hover { background: var(--purple-100); }
+.empty { padding: 24px; text-align: center; color: var(--grey-400); font-size: 0.83rem; }
+
+.annCard { border: 1px solid var(--grey-200); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 10px; }
+.annCard.pinned { border-left: 3px solid var(--gold); background: linear-gradient(to right, rgba(201,168,76,0.04), var(--white)); }
+.annHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.annTitle { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--purple-800); }
+.annContent { font-size: 0.82rem; color: var(--grey-600); line-height: 1.55; }
+.annMeta { font-size: 0.7rem; color: var(--grey-400); margin-top: 6px; }
+
+.eventRow { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--grey-100); }
+.eventRow:last-child { border-bottom: none; }
+.dateBadge { width: 40px; height: 40px; background: var(--purple-100); border-radius: 9px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--purple-200); }
+.dateDay { font-size: 0.95rem; font-weight: 700; color: var(--purple-700); font-family: var(--font-display); line-height: 1; }
+.dateMon { font-size: 0.57rem; font-weight: 600; color: var(--purple-500); text-transform: uppercase; }
+.eventTitle { font-size: 0.85rem; font-weight: 600; color: var(--grey-800); }
+.eventMeta { font-size: 0.72rem; color: var(--grey-600); margin-top: 2px; margin-bottom: 5px; }
+
+.taskRow { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--grey-100); }
+.taskRow:last-child { border-bottom: none; }
+.taskDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--grey-300); }
+.taskDot[data-status="pending"] { background: #f59e0b; }
+.taskDot[data-status="in-progress"] { background: #3b82f6; }
+.taskDot[data-status="completed"] { background: #10b981; }
+.taskTitle { font-size: 0.85rem; font-weight: 500; color: var(--grey-800); }
+.taskMeta { font-size: 0.72rem; color: var(--grey-400); margin-top: 2px; }
+
+.officeImg { width: 100%; height: 130px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 12px; }
+.officeList { display: flex; flex-direction: column; gap: 8px; }
+.officeItem { display: flex; align-items: flex-start; gap: 9px; padding: 9px 11px; background: var(--purple-50); border-radius: var(--radius-md); border: 1px solid var(--purple-200); }
+.officeName { font-size: 0.8rem; font-weight: 600; color: var(--purple-700); }
+.officeAddr { font-size: 0.72rem; color: var(--grey-600); margin-top: 1px; }

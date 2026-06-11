@@ -1,4 +1,4 @@
-const Datastore = require('@seald-io/nedb');
+const Datastore = require('nedb');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');

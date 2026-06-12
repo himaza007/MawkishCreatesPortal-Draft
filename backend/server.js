@@ -1,56 +1,60 @@
- const express = require('express');
+require('dotenv').config();
+
+const express = require('express');
 const path = require('path');
-const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const { ensureSeeded } = require('./db/database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'mawkish-dev-secret';
 
-// Middleware
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Session
-app.use(session({
-  secret: 'mawkish-secret-2026',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true }
-}));
+// Seed initial data on first request
+app.use(async (req, res, next) => {
+  try { await ensureSeeded(); } catch (e) { console.error('Seed error:', e); }
+  next();
+});
 
-// Serve static frontend files
+// Attach user from JWT cookie to every request
+app.use((req, res, next) => {
+  const token = req.cookies.token;
+  if (token) {
+    try { req.user = jwt.verify(token, JWT_SECRET); } catch {}
+  }
+  next();
+});
+
+// Serve built frontend
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Import routes
-const authRoutes = require('./routes/auth');
-const taskRoutes = require('./routes/tasks');
-const announcementRoutes = require('./routes/announcements');
-const eventRoutes = require('./routes/events');
-const pipelineRoutes = require('./routes/pipelines');
-const resourceRoutes = require('./routes/resources');
+// API routes
+app.use('/api/auth',          require('./routes/auth'));
+app.use('/api/tasks',         require('./routes/tasks'));
+app.use('/api/announcements', require('./routes/announcements'));
+app.use('/api/events',        require('./routes/events'));
+app.use('/api/pipelines',     require('./routes/pipelines'));
+app.use('/api/resources',     require('./routes/resources'));
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/announcements', announcementRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/pipelines', pipelineRoutes);
-app.use('/api/resources', resourceRoutes);
-
-// Serve index.html for all unmatched routes (SPA fallback)
+// SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Mawkish Portal running on http://localhost:${PORT}`);
-});
+// Only listen when run directly (not on Vercel serverless)
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Mawkish Portal running on http://localhost:${PORT}`));
+}
 
-module.exports = app; 
+module.exports = app;

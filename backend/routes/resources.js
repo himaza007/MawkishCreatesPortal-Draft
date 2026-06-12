@@ -1,32 +1,40 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/database');
+const { supabase, toClient } = require('../db/database');
 
 const EDITORS = new Set(['Booso', 'Himaza', 'Faraz', 'Bianca']);
 
 const auth = (req, res, next) => {
-  if (!req.session.user) return res.status(401).json({ error: 'Not authenticated' });
+  if (!req.user) return res.status(401).json({ error: 'Not authenticated' });
   next();
 };
 
 const canWrite = (req, res, next) => {
-  if (!req.session.user) return res.status(401).json({ error: 'Not authenticated' });
-  if (!EDITORS.has(req.session.user.name) && req.session.user.role !== 'admin') {
+  if (!req.user) return res.status(401).json({ error: 'Not authenticated' });
+  if (!EDITORS.has(req.user.name) && req.user.role !== 'admin') {
     return res.status(403).json({ error: 'View only access' });
   }
   next();
 };
 
-router.get('/', auth, (req, res) => {
-  db.resources.find({}).sort({ addedAt: -1 }).exec((err, docs) => res.json(docs));
+router.get('/', auth, async (req, res) => {
+  const { data } = await supabase.from('resources').select('*').order('added_at', { ascending: false });
+  res.json((data || []).map(toClient));
 });
 
-router.post('/', canWrite, (req, res) => {
-  db.resources.insert({ ...req.body, addedAt: new Date(), addedBy: req.session.user.name }, (err, doc) => res.json(doc));
+router.post('/', canWrite, async (req, res) => {
+  const { title, category, description, url, type } = req.body;
+  const { data, error } = await supabase
+    .from('resources')
+    .insert({ title, category, description, url, type, added_by: req.user.name })
+    .select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(toClient(data));
 });
 
-router.delete('/:id', canWrite, (req, res) => {
-  db.resources.remove({ _id: req.params.id }, {}, () => res.json({ ok: true }));
+router.delete('/:id', canWrite, async (req, res) => {
+  await supabase.from('resources').delete().eq('id', req.params.id);
+  res.json({ ok: true });
 });
 
 module.exports = router;

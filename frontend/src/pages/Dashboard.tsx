@@ -160,7 +160,8 @@ export default function Dashboard() {
                       <div className={styles.taskTitle}>{t.title}</div>
                       <div className={styles.taskMeta}>Due {formatDate(t.dueDate)} · {t.assignedTeam || t.assignee || '—'}</div>
                     </div>
-                    {canChangeStatus(t) ? (
+                    <Badge variant={t.priority}>{t.priority}</Badge>
+                    {canChangeStatus(t) && (
                       <select
                         className={`${styles.statusSelect} ${styles[`status_${t.status.replace('-', '_')}`]}`}
                         value={t.status}
@@ -170,8 +171,6 @@ export default function Dashboard() {
                         <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
                       </select>
-                    ) : (
-                      <Badge variant={t.priority}>{t.priority}</Badge>
                     )}
                   </div>
                 ))

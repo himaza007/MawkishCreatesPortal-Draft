@@ -42,12 +42,11 @@
 }
 
 .logo {
-  height: 48px; /* adjust to taste */
+  height: 48px; 
   width: auto;
   object-fit: contain;
 }
 
-.brand {}
 
 .logoRow { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
 

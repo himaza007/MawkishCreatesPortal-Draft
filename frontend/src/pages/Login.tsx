@@ -31,9 +31,6 @@ export default function Login({ onLogin }: Props) {
     <div className={styles.wrap}>
       <div className={styles.left}>
         <div className={styles.brand}>
-          <div className={styles.logoRow}>
-          <img src="/" alt="Mawkish Creates" className={styles.logo} />         
-           </div>
           <h1 className={styles.headline}>Your team,<br /><span>one place.</span></h1>
           <p className={styles.subline}>The internal hub for tasks, pipelines, resources, and everything in between.</p>
         </div>

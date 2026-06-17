@@ -33,16 +33,7 @@ export default function Sidebar({ user }: Props) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <img
-          src="/logo.png"
-          alt="Mawkish Creates"
-          className={styles.logoImg}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
-        />
-        <div className={styles.logoFallback} style={{ display: 'none' }}>
-          <div className={styles.logoMark}>M</div>
-          <span className={styles.logoText}>Mawkish <em>Creates</em></span>
-        </div>
+        <img src="/logo.webp" alt="Mawkish Creates" className={styles.logoImg} />
       </div>
 
       <nav className={styles.nav}>

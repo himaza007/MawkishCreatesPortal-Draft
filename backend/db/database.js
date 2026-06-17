@@ -10,10 +10,11 @@ const supabase = createClient(
 // Maps Supabase snake_case row to camelCase + renames id → _id
 function toClient(row) {
   if (!row) return null;
-  const { id, due_date, start_date, added_at, added_by, created_at, created_by, ...rest } = row;
+  const { id, due_date, start_date, added_at, added_by, created_at, created_by, assigned_team, ...rest } = row;
   return {
     _id: id,
     ...rest,
+    ...(assigned_team !== undefined && { assignedTeam: assigned_team }),
     ...(due_date    !== undefined && { dueDate:    due_date }),
     ...(start_date  !== undefined && { startDate:  start_date }),
     ...(added_at    !== undefined && { addedAt:    added_at }),

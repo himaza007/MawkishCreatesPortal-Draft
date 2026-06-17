@@ -56,6 +56,20 @@ export default function Dashboard() {
         (t.assignedTeam && t.assignedTeam === user?.department)
       )
   const completedTasks = tasks.filter(t => t.status === 'completed')
+
+  const canChangeStatus = (t: Task) =>
+    user?.role === 'admin' ||
+    t.assignee === user?.name ||
+    (!!t.assignedTeam && t.assignedTeam === user?.department)
+
+  const handleStatusChange = async (taskId: string, newStatus: Task['status']) => {
+    try {
+      await api.tasks.updateStatus(taskId, newStatus)
+      setTasks(prev => prev.map(t => t._id === taskId ? { ...t, status: newStatus } : t))
+    } catch (e) {
+      console.error('Failed to update task status:', e)
+    }
+  }
   const progress = tasks.length ? Math.round(completedTasks.length / tasks.length * 100) : 0
   const upcomingEvents = events.filter(e => new Date(e.date) >= new Date())
   const activeClients = pipelines.filter(p => p.stage !== 'Completed')
@@ -146,7 +160,19 @@ export default function Dashboard() {
                       <div className={styles.taskTitle}>{t.title}</div>
                       <div className={styles.taskMeta}>Due {formatDate(t.dueDate)} · {t.assignedTeam || t.assignee || '—'}</div>
                     </div>
-                    <Badge variant={t.priority}>{t.priority}</Badge>
+                    {canChangeStatus(t) ? (
+                      <select
+                        className={`${styles.statusSelect} ${styles[`status_${t.status.replace('-', '_')}`]}`}
+                        value={t.status}
+                        onChange={e => handleStatusChange(t._id, e.target.value as Task['status'])}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                    ) : (
+                      <Badge variant={t.priority}>{t.priority}</Badge>
+                    )}
                   </div>
                 ))
               }

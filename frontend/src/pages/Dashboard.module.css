@@ -38,6 +38,21 @@
 .taskTitle { font-size: 0.85rem; font-weight: 500; color: var(--grey-800); }
 .taskMeta { font-size: 0.72rem; color: var(--grey-400); margin-top: 2px; }
 
+.statusSelect {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 20px;
+  border: 1.5px solid;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  flex-shrink: 0;
+}
+.status_pending    { color: #92400e; border-color: #fcd34d; background: #fef3c7; }
+.status_in_progress { color: #1d4ed8; border-color: #93c5fd; background: #eff6ff; }
+.status_completed  { color: #065f46; border-color: #6ee7b7; background: #d1fae5; }
+
 .officeImg { width: 100%; height: 130px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 12px; }
 .officeList { display: flex; flex-direction: column; gap: 8px; }
 .officeItem { display: flex; align-items: flex-start; gap: 9px; padding: 9px 11px; background: var(--purple-50); border-radius: var(--radius-md); border: 1px solid var(--purple-200); }

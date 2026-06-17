@@ -21,6 +21,7 @@ export const api = {
     list: () => request<import('../types').Task[]>('/tasks'),
     create: (data: Partial<import('../types').Task>) => request<import('../types').Task>('/tasks', { method: 'POST', body: JSON.stringify(data) }),
     update: (id: string, data: Partial<import('../types').Task>) => request(`/tasks/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    updateStatus: (id: string, status: string) => request(`/tasks/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) }),
     delete: (id: string) => request(`/tasks/${id}`, { method: 'DELETE' }),
   },
   announcements: {

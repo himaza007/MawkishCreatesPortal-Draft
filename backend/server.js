@@ -31,8 +31,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve built frontend
-app.use(express.static(path.join(process.cwd(), 'public')));
+// Serve built frontend (local dev only — Vercel serves public/ via @vercel/static)
+app.use(express.static(path.join(__dirname, '../public')));
 
 // API routes
 app.use('/api/auth',          require('./routes/auth'));

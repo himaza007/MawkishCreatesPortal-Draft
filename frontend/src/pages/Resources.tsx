@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2, FileText, Wrench, LayoutTemplate, Image, Link } from 'lucide-react'
+import { Plus, Trash2, FileText, Wrench, LayoutTemplate, Image, Link, Pencil } from 'lucide-react'
 import { api } from '../lib/api'
 import { useUser, canEdit } from '../lib/userContext'
 import type { Resource } from '../types'
@@ -18,6 +18,7 @@ const CAT_OPTS = [
   { value: 'Brand', label: 'Brand' },
   { value: 'Design', label: 'Design' },
   { value: 'Operations', label: 'Operations' },
+  { value: 'Finance', label: 'Finance' },
   { value: 'Other', label: 'Other' },
 ]
 
@@ -36,6 +37,7 @@ export default function Resources() {
   const editor = canEdit(user)
   const [items, setItems] = useState<Resource[]>([])
   const [modal, setModal] = useState(false)
+  const [editTarget, setEditTarget] = useState<Resource | null>(null)
   const [form, setForm] = useState<Partial<Resource>>(empty())
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
@@ -43,9 +45,17 @@ export default function Resources() {
   const load = () => api.resources.list().then(setItems)
   useEffect(() => { load() }, [])
 
+  const openAdd = () => { setForm(empty()); setEditTarget(null); setModal(true) }
+  const openEdit = (r: Resource) => { setForm({ title: r.title, description: r.description, category: r.category, type: r.type, url: r.url }); setEditTarget(r); setModal(true) }
+
   const save = async () => {
     if (!form.title?.trim()) return
-    await api.resources.create(form); setModal(false); setForm(empty()); load()
+    if (editTarget) {
+      await api.resources.update(editTarget._id, form)
+    } else {
+      await api.resources.create(form)
+    }
+    setModal(false); setForm(empty()); setEditTarget(null); load()
   }
 
   const remove = async (id: string) => {
@@ -62,12 +72,12 @@ export default function Resources() {
   return (
     <>
       <Topbar title="Resources">
-        {editor && <Button onClick={() => setModal(true)} size="sm"><Plus size={14} /> Add Resource</Button>}
+        {editor && <Button onClick={openAdd} size="sm"><Plus size={14} /> Add Resource</Button>}
       </Topbar>
       <Page>
         <div className={styles.filters}>
           <input className={styles.search} placeholder="Search resources…" value={search} onChange={e => setSearch(e.target.value)} />
-          {['all', 'Brand', 'Design', 'Operations'].map(c => (
+          {['all', 'Brand', 'Design', 'Operations', 'Finance'].map(c => (
             <button key={c} className={`${styles.filterBtn} ${filter === c ? styles.active : ''}`} onClick={() => setFilter(c)}>
               {c === 'all' ? 'All' : c}
             </button>
@@ -80,7 +90,12 @@ export default function Resources() {
             <div key={r._id} className={styles.card}>
               <div className={styles.cardTop}>
                 <div className={styles.icon}>{TYPE_ICONS[r.type] || <Link size={20} />}</div>
-                {editor && <button className={styles.delBtn} onClick={() => remove(r._id)}><Trash2 size={13} /></button>}
+                {editor && (
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <button className={styles.delBtn} onClick={() => openEdit(r)}><Pencil size={13} /></button>
+                    <button className={styles.delBtn} onClick={() => remove(r._id)}><Trash2 size={13} /></button>
+                  </div>
+                )}
               </div>
               <div className={styles.title}>{r.title}</div>
               {r.description && <p className={styles.desc}>{r.description}</p>}
@@ -97,8 +112,8 @@ export default function Resources() {
         </div>
       </Page>
 
-      {editor && <Modal open={modal} onClose={() => setModal(false)} title="Add Resource"
-        footer={<><Button variant="ghost" onClick={() => setModal(false)}>Cancel</Button><Button onClick={save}>Add Resource</Button></>}
+      {editor && <Modal open={modal} onClose={() => { setModal(false); setEditTarget(null) }} title={editTarget ? 'Edit Resource' : 'Add Resource'}
+        footer={<><Button variant="ghost" onClick={() => { setModal(false); setEditTarget(null) }}>Cancel</Button><Button onClick={save}>{editTarget ? 'Save Changes' : 'Add Resource'}</Button></>}
       >
         <Input label="Title *" value={form.title || ''} onChange={v => setForm(f => ({ ...f, title: v }))} placeholder="Resource name" />
         <Textarea label="Description" value={form.description || ''} onChange={v => setForm(f => ({ ...f, description: v }))} placeholder="Brief description" rows={2} />

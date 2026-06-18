@@ -32,6 +32,17 @@ router.post('/', canWrite, async (req, res) => {
   res.json(toClient(data));
 });
 
+router.put('/:id', canWrite, async (req, res) => {
+  const { title, category, description, url, type } = req.body;
+  const { data, error } = await supabase
+    .from('resources')
+    .update({ title, category, description, url, type })
+    .eq('id', req.params.id)
+    .select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(toClient(data));
+});
+
 router.delete('/:id', canWrite, async (req, res) => {
   await supabase.from('resources').delete().eq('id', req.params.id);
   res.json({ ok: true });

@@ -56,7 +56,7 @@ export interface Resource {
   _id: string
   title: string
   description?: string
-  category: 'Brand' | 'Design' | 'Operations' | 'Other'
+  category: 'Brand' | 'Design' | 'Operations' | 'Finance' | 'Other'
   type: 'document' | 'tool' | 'template' | 'media' | 'link'
   url?: string
   addedAt: string

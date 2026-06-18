@@ -44,6 +44,7 @@ export const api = {
   resources: {
     list: () => request<import('../types').Resource[]>('/resources'),
     create: (data: Partial<import('../types').Resource>) => request<import('../types').Resource>('/resources', { method: 'POST', body: JSON.stringify(data) }),
+    update: (id: string, data: Partial<import('../types').Resource>) => request<import('../types').Resource>(`/resources/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     delete: (id: string) => request(`/resources/${id}`, { method: 'DELETE' }),
   },
 }

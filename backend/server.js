@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 // Serve built frontend
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // API routes
 app.use('/api/auth',          require('./routes/auth'));
@@ -44,7 +44,7 @@ app.use('/api/resources',     require('./routes/resources'));
 
 // SPA fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(process.cwd(), 'public/index.html'));
 });
 
 app.use((err, req, res, next) => {

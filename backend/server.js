@@ -44,7 +44,7 @@ app.use('/api/resources',     require('./routes/resources'));
 
 // SPA fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'public/index.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.use((err, req, res, next) => {

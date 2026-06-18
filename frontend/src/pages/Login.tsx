@@ -20,8 +20,11 @@ export default function Login({ onLogin }: Props) {
       const data = await api.auth.login(email, password)
       onLogin(data.user)
       navigate('/dashboard')
-    } catch {
-      setError('Invalid credentials. Please try again.')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      if (msg.includes('401')) setError('Invalid credentials. Please try again.')
+      else if (msg.includes('fetch') || msg.includes('Network') || msg.includes('500')) setError(`Server unreachable — make sure the backend is running. (${msg})`)
+      else setError(`Error: ${msg}`)
     } finally {
       setLoading(false)
     }

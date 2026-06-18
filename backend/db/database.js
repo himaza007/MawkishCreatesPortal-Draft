@@ -30,22 +30,22 @@ async function ensureSeeded() {
   if (seeded) return;
   seeded = true;
 
-  const { count: userCount } = await supabase
-    .from('users').select('*', { count: 'exact', head: true });
-
-  if (userCount === 0) {
-    const members = [
-      { name: 'Admin User',  email: 'admin@mawkish.com',            password: 'mawkish2026',  role: 'admin', department: 'Management',           avatar: 'AU' },
-      { name: 'Booso',       email: 'booso@mawkishcreates.com',      password: 'booso2026',    role: 'admin', department: 'Management',           avatar: 'BO' },
-      { name: 'Harish',      email: 'harish@mawkishcreates.com',     password: 'harish2026',   role: 'staff', department: 'Digital Solution Team', avatar: 'HA' },
-      { name: 'Aathif',      email: 'aathif@mawkishcreates.com',     password: 'aathif2026',   role: 'staff', department: 'Social Media Team',     avatar: 'AA' },
-      { name: 'Himaza',      email: 'himaza@mawkishcreates.com',     password: 'himaza2026',   role: 'staff', department: 'Digital Solution Team', avatar: 'HI' },
-      { name: 'Hakam',       email: 'hakam@mawkishcreates.com',      password: 'hakam2026',    role: 'staff', department: 'Social Media Team',     avatar: 'HK' },
-      { name: 'Krish',       email: 'krish@mawkishcreates.com',      password: 'krish2026',    role: 'staff', department: 'Social Media Team',     avatar: 'KR' },
-      { name: 'Bianca',      email: 'bianca@mawkishcreates.com',     password: 'bianca2026',   role: 'staff', department: 'Social Media Team',     avatar: 'BI' },
-      { name: 'Faraz',       email: 'faraz@mawkishcreates.com',      password: 'faraz2026',    role: 'staff', department: 'Event Management Team', avatar: 'FA' },
-    ];
-    for (const m of members) {
+  const members = [
+    { name: 'Admin User',  email: 'admin@mawkish.com',            password: 'mawkish2026',  role: 'admin', department: 'Management',           avatar: 'AU' },
+    { name: 'Booso',       email: 'booso@mawkishcreates.com',      password: 'booso2026',    role: 'admin', department: 'Management',           avatar: 'BO' },
+    { name: 'Harish',      email: 'harish@mawkishcreates.com',     password: 'harish2026',   role: 'staff', department: 'Digital Solution Team', avatar: 'HA' },
+    { name: 'Aathif',      email: 'aathif@mawkishcreates.com',     password: 'aathif2026',   role: 'staff', department: 'Social Media Team',     avatar: 'AA' },
+    { name: 'Himaza',      email: 'himaza@mawkishcreates.com',     password: 'himaza2026',   role: 'staff', department: 'Digital Solution Team', avatar: 'HI' },
+    { name: 'Hakam',       email: 'hakam@mawkishcreates.com',      password: 'hakam2026',    role: 'staff', department: 'Social Media Team',     avatar: 'HK' },
+    { name: 'Krish',       email: 'krish@mawkishcreates.com',      password: 'krish2026',    role: 'staff', department: 'Social Media Team',     avatar: 'KR' },
+    { name: 'Bianca',      email: 'bianca@mawkishcreates.com',     password: 'bianca2026',   role: 'staff', department: 'Social Media Team',     avatar: 'BI' },
+    { name: 'Faraz',       email: 'faraz@mawkishcreates.com',      password: 'faraz2026',    role: 'staff', department: 'Event Management Team', avatar: 'FA' },
+    { name: 'Wazeem',      email: 'wazeem@mawkishcreates.com',     password: 'wazeem2026',   role: 'staff', department: 'Event Management Team', avatar: 'WA' },
+    { name: 'Adithya',     email: 'adithya@mawkishcreates.com',    password: 'adithya2026',  role: 'staff', department: 'Event Management Team', avatar: 'AD' },
+  ];
+  for (const m of members) {
+    const { data: existing } = await supabase.from('users').select('id').eq('email', m.email).single();
+    if (!existing) {
       await supabase.from('users').insert({
         name: m.name, email: m.email, role: m.role,
         department: m.department, avatar: m.avatar,

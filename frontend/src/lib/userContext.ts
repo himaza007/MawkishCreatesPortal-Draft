@@ -8,10 +8,10 @@ const EDITORS = new Set(['Booso', 'Himaza', 'Faraz', 'Bianca'])
 export const canEdit = (user: User | null): boolean =>
   user !== null && (EDITORS.has(user.name) || user.role === 'admin')
 
-export const TEAM_MEMBERS = ['Booso', 'Harish', 'Aathif', 'Himaza', 'Hakam', 'Krish', 'Bianca', 'Faraz'] as const
+export const TEAM_MEMBERS = ['Booso', 'Harish', 'Aathif', 'Himaza', 'Hakam', 'Krish', 'Bianca', 'Faraz', 'Wazeem', 'Adithya'] as const
 
 export const TEAMS: Record<string, string[]> = {
   'Social Media Team':     ['Bianca', 'Krish', 'Aathif', 'Hakam'],
   'Digital Solution Team': ['Himaza', 'Harish'],
-  'Event Management Team': ['Faraz'],
+  'Event Management Team': ['Faraz', 'Wazeem', 'Adithya'],
 }

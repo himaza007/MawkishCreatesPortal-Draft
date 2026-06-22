@@ -11,6 +11,14 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  dashboard: {
+    get: () => request<{
+      tasks: import('../types').Task[],
+      announcements: import('../types').Announcement[],
+      events: import('../types').CalendarEvent[],
+      pipelines: import('../types').Pipeline[],
+    }>('/dashboard'),
+  },
   auth: {
     me: () => request<{ user: import('../types').User }>('/auth/me'),
     login: (email: string, password: string) =>

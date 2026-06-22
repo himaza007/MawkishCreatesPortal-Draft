@@ -5,6 +5,7 @@ import { useUser } from '../lib/userContext'
 import type { Task, Announcement, CalendarEvent, Pipeline } from '../types'
 import { Topbar, Page, Card, Badge, StatGrid, Grid2 } from '../components/UI'
 import { formatDate, timeAgo } from '../lib/utils'
+import { readDashboardCache, writeDashboardCache, clearDashboardCache } from '../lib/dashboardCache'
 import styles from './Dashboard.module.css'
 
 interface StatCardProps {
@@ -30,22 +31,29 @@ function StatCard({ icon, value, label, color, progress }: StatCardProps) {
   )
 }
 
+function LogoLoader() {
+  return (
+    <div className={styles.loadingScreen}>
+      <img src="/logo.webp" alt="Loading…" className={styles.loadingLogo} />
+    </div>
+  )
+}
+
 export default function Dashboard() {
   const user = useUser()
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [announcements, setAnnouncements] = useState<Announcement[]>([])
-  const [events, setEvents] = useState<CalendarEvent[]>([])
-  const [pipelines, setPipelines] = useState<Pipeline[]>([])
+  const cached = readDashboardCache()
+  const [tasks, setTasks] = useState<Task[]>(cached?.tasks ?? [])
+  const [announcements, setAnnouncements] = useState<Announcement[]>(cached?.announcements ?? [])
+  const [events, setEvents] = useState<CalendarEvent[]>(cached?.events ?? [])
+  const [pipelines, setPipelines] = useState<Pipeline[]>(cached?.pipelines ?? [])
+  const [loading, setLoading] = useState(!cached)
 
   useEffect(() => {
-    Promise.all([
-      api.tasks.list(),
-      api.announcements.list(),
-      api.events.list(),
-      api.pipelines.list(),
-    ]).then(([t, a, e, p]) => {
-      setTasks(t); setAnnouncements(a); setEvents(e); setPipelines(p)
-    })
+    api.dashboard.get().then(d => {
+      setTasks(d.tasks); setAnnouncements(d.announcements); setEvents(d.events); setPipelines(d.pipelines)
+      writeDashboardCache(d)
+      setLoading(false)
+    }).catch(() => setLoading(false))
   }, [])
 
   const activeTasks = tasks.filter(t => t.status !== 'completed')
@@ -65,16 +73,19 @@ export default function Dashboard() {
   const handleStatusChange = async (taskId: string, newStatus: Task['status']) => {
     try {
       await api.tasks.updateStatus(taskId, newStatus)
+      clearDashboardCache()
       setTasks(prev => prev.map(t => t._id === taskId ? { ...t, status: newStatus } : t))
     } catch (e) {
       console.error('Failed to update task status:', e)
     }
   }
+
   const progress = tasks.length ? Math.round(completedTasks.length / tasks.length * 100) : 0
   const upcomingEvents = events.filter(e => new Date(e.date) >= new Date())
   const activeClients = pipelines.filter(p => p.stage !== 'Completed')
-
   const today = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+
+  if (loading) return <LogoLoader />
 
   return (
     <>

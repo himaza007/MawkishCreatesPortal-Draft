@@ -5,6 +5,7 @@ import { useUser, canEdit, TEAM_MEMBERS, TEAMS } from '../lib/userContext'
 import type { Task } from '../types'
 import { Topbar, Page, Button, Badge, Modal, Input, Select, Textarea } from '../components/UI'
 import { formatDate } from '../lib/utils'
+import { clearDashboardCache } from '../lib/dashboardCache'
 import styles from './Tasks.module.css'
 
 const STATUS_OPTIONS = [
@@ -57,6 +58,7 @@ export default function Tasks() {
     } else {
       await api.tasks.create(editing)
     }
+    clearDashboardCache()
     setModal(false)
     load()
   }
@@ -64,6 +66,7 @@ export default function Tasks() {
   const remove = async (id: string) => {
     if (!confirm('Delete this task?')) return
     await api.tasks.delete(id)
+    clearDashboardCache()
     load()
   }
 

@@ -16,11 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Seed initial data on first request
-app.use(async (req, res, next) => {
-  try { await ensureSeeded(); } catch (e) { console.error('Seed error:', e); }
-  next();
-});
+// Seed once at startup (not on every request)
+ensureSeeded().catch(e => console.error('Seed error:', e));
 
 // Attach user from JWT cookie to every request
 app.use((req, res, next) => {
@@ -36,6 +33,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // API routes
 app.use('/api/auth',          require('./routes/auth'));
+app.use('/api/dashboard',     require('./routes/dashboard'));
 app.use('/api/tasks',         require('./routes/tasks'));
 app.use('/api/announcements', require('./routes/announcements'));
 app.use('/api/events',        require('./routes/events'));

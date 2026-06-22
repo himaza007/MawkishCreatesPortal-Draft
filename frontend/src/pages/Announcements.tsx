@@ -5,6 +5,7 @@ import { useUser, canEdit } from '../lib/userContext'
 import type { Announcement } from '../types'
 import { Topbar, Page, Card, Button, Badge, Modal, Input, Select, Textarea } from '../components/UI'
 import { formatDate } from '../lib/utils'
+import { clearDashboardCache } from '../lib/dashboardCache'
 import styles from './Announcements.module.css'
 
 const empty = (): Partial<Announcement> => ({ title: '', content: '', priority: 'medium', pinned: false })
@@ -23,12 +24,13 @@ export default function Announcements() {
   const save = async () => {
     if (!form.title?.trim() || !form.content?.trim()) return
     await api.announcements.create(form)
+    clearDashboardCache()
     setModal(false); setForm(empty()); load()
   }
 
   const remove = async (id: string) => {
     if (!confirm('Delete this announcement?')) return
-    await api.announcements.delete(id); load()
+    await api.announcements.delete(id); clearDashboardCache(); load()
   }
 
   const filtered = items.filter(a =>

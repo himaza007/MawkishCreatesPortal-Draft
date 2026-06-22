@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Plus, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { api } from '../lib/api'
 import { useUser, canEdit } from '../lib/userContext'
+import { clearDashboardCache } from '../lib/dashboardCache'
 import type { CalendarEvent } from '../types'
 import { Topbar, Page, Card, Button, Badge, Modal, Input, Select, Textarea, Grid2 } from '../components/UI'
 import styles from './CalendarPage.module.css'
@@ -35,12 +36,12 @@ export default function CalendarPage() {
 
   const save = async () => {
     if (!form.title?.trim() || !form.date) return
-    await api.events.create(form); setModal(false); setForm(empty()); load()
+    await api.events.create(form); clearDashboardCache(); setModal(false); setForm(empty()); load()
   }
 
   const remove = async (id: string) => {
     if (!confirm('Delete event?')) return
-    await api.events.delete(id); load()
+    await api.events.delete(id); clearDashboardCache(); load()
   }
 
   const firstDay = new Date(year, month, 1).getDay()

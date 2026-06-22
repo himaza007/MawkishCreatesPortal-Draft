@@ -58,3 +58,21 @@
 .officeItem { display: flex; align-items: flex-start; gap: 9px; padding: 9px 11px; background: var(--purple-50); border-radius: var(--radius-md); border: 1px solid var(--purple-200); }
 .officeName { font-size: 0.8rem; font-weight: 600; color: var(--purple-700); }
 .officeAddr { font-size: 0.72rem; color: var(--grey-600); margin-top: 1px; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: #1a0533;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.loadingLogo {
+  width: 220px;
+  animation: pulse 1.8s ease-in-out infinite;
+}

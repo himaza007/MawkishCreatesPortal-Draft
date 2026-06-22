@@ -5,6 +5,7 @@ import { useUser, canEdit } from '../lib/userContext'
 import type { Pipeline } from '../types'
 import { Topbar, Page, Card, Button, Badge, Modal, Input, Select } from '../components/UI'
 import { formatDate } from '../lib/utils'
+import { clearDashboardCache } from '../lib/dashboardCache'
 import styles from './Pipelines.module.css'
 
 const STAGES: Pipeline['stage'][] = ['Proposal', 'Onboarding', 'Active', 'Completed']
@@ -36,12 +37,12 @@ export default function Pipelines() {
     if (!form.client?.trim()) return
     if (form._id) await api.pipelines.update(form._id, form)
     else await api.pipelines.create(form)
-    setModal(false); load()
+    clearDashboardCache(); setModal(false); load()
   }
 
   const remove = async (id: string) => {
     if (!confirm('Remove this client?')) return
-    await api.pipelines.delete(id); load()
+    await api.pipelines.delete(id); clearDashboardCache(); load()
   }
 
   const filtered = filter === 'all' ? items : items.filter(p => p.stage === filter)
